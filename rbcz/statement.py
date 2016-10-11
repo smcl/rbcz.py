@@ -1,5 +1,10 @@
 class Statment(object):
     def __init__(self):
+        self.account_name = ""
+        self.account_number = ""
+        self.iban = ""
+        self.currency = ""
+        self.number = -1
         self.from_date = None
         self.to_date = None
         self.opening_balance = 0
