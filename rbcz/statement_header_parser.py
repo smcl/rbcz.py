@@ -1,4 +1,4 @@
 class StatementHeaderParser(object):
 
-    def parse(section):
+    def parse(statment, section):
         pass

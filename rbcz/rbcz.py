@@ -1,3 +1,5 @@
+from .statement_parser import StatementParser
+
 def read_statement(filename):
     """
     something like...

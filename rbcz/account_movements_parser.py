@@ -1,4 +1,4 @@
 class AccountMovementsParser(object):
 
-    def Parse(section):
+    def Parse(statement, section):
         pass
