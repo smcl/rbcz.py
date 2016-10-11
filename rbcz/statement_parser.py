@@ -28,7 +28,7 @@ class StatementParser(object):
             line = raw_line.strip()
             
             if re.match(section_regex, line):
-                if self.skip_section(current_section):
+                if len(current_section) > 1 and not self.skip_section(current_section):
                     sections.append(current_section)
                 current_section = []
                 continue
@@ -50,7 +50,6 @@ class StatementParser(object):
 
         parser_idx = 0
         sections = self.split_into_sections(file_contents)
-
         statement = Statment()
         
         for section in sections:
