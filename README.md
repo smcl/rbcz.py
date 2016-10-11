@@ -19,3 +19,5 @@ Should be able to load
 - statements from IMAP connection
 
 My statements are in English, but get hold of Czech ones to see if we can handle both.
+
+Once it's roughly working chuck together a simple example to read in a chunk of statements and plot balance over time in `matplotlib`
