@@ -6,9 +6,20 @@ Note: currently *doesn't work* - I started working on this properly today, only 
 ## using
 
 ```
-from rbcz import rbcz
+from rbcz import *
 stmt = rbcz.read_statement("16008_6986230001_CZK.TXT")
-print(s.available_balance)
+
+print "number: " + stmt.number
+print "account name: " + stmt.account_name
+print "account number: " + stmt.account_number
+print "from: " + stmt.from_date
+print "to: " + stmt.to_date
+print "iban: " + stmt.iban
+print "currency: " + stmt.currency
+print "opening balance: " + stmt.opening_balance
+print "closing balance: " + stmt.closing_balance
+print "expenses: " + stmt.expenses
+print "income: " + stmt.income
 ```
 
 ## ideas

@@ -11,8 +11,6 @@ Name of account: Sean James McLemon
 Account number: 6986230001/5500
 IBAN:            CZ3555000000006986230001
 Currency:        CZK
-
-======================================================================================
 """
 
 # how we'll do this is
@@ -31,23 +29,25 @@ account_number_label = "Account number"
 iban_label = "IBAN"
 currency_label = "Currency"
 
+from pprint import pprint
+
 class StatementHeaderParser(object):
 
     def Parse(self, statement, section):
+
+        parsers = [
+            self.parse_statement_number,
+            self.parse_from_to,
+            self.parse_assign
+        ]
+
         for line in section:
             if not line:
                 continue
 
-            print line
-
-            if self.parse_statement_number(statement, line):
-                continue
-
-            if self.parse_from_to(statement, line):
-                continue
-            
-            if self.parse_assign(statement, line):
-                continue
+            for parser in parsers:
+                if parser(statement, line):
+                    break
 
     def parse_statement_number(self, statement, line):
         parsed_stmt_number = re.match(statement_number_regex, line)

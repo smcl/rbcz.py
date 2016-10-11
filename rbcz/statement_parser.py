@@ -6,6 +6,8 @@ from .account_movements_parser import AccountMovementsParser
 
 from .statement import *
 
+from pprint import pprint
+
 section_regex = "^=+$"
 
 class StatementParser(object):
@@ -22,17 +24,28 @@ class StatementParser(object):
         sections = []
         current_section = []
         
-        for line in file_contents:
-
+        for raw_line in file_contents:
+            line = raw_line.strip()
+            
             if re.match(section_regex, line):
-                sections.append(current_section)
+                if self.skip_section(current_section):
+                    sections.append(current_section)
                 current_section = []
                 continue
 
             current_section.append(line)
-            
+
         return sections
-        
+
+    def skip_section(self, section):
+        if (len(section) <= 1):
+            return True
+
+        if section[0] == "Message for client":
+            return True
+
+        return False
+    
     def Parse(self, file_contents):
 
         parser_idx = 0
@@ -41,12 +54,10 @@ class StatementParser(object):
         statement = Statment()
         
         for section in sections:
-            for parser in parsers[parser_idx:]:
-                try:
-                    parser.Parse(statement, section)
-                    parser_idx += 1
-                except:
-                    pass
-
+            for parser in self.parsers[parser_idx:]:
+                parser.Parse(statement, section)
+                parser_idx += 1
+                break
+                
         return statement
                 
