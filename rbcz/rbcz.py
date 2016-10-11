@@ -1,28 +1,11 @@
 from .statement_parser import StatementParser
 
 def read_statement(filename):
-    """
-    something like...
+    with open(filename) as f:
+        return StatementParser().Parse(f.readlines())
 
-    with f as open(filename):
-        return StatementParser.parse(f)
-    """
-    
-    pass
-
-def read_statements(filenames):
-    """
-    something like...
-
-    statements = []
-
-    for filename in filenames:
-        statements.append(read_statement(filename))
-
-    return statements
-    """
-
-    pass
+def read_statements(*filenames):
+    return [ read_statement(filename) for filename in filenames ]
 
 def read_statements_from_mailbox(imap_addr, username, password, mailbox="inbox"):
     """
