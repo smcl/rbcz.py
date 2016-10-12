@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 # what we're needing to do is parse a chunk of text like the following
 
@@ -29,8 +30,6 @@ account_number_label = "Account number"
 iban_label = "IBAN"
 currency_label = "Currency"
 
-from pprint import pprint
-
 class StatementHeaderParser(object):
 
     def Parse(self, statement, section):
@@ -60,8 +59,8 @@ class StatementHeaderParser(object):
     def parse_from_to(self, statement, line):
         parsed_dates = re.match(for_period_regex, line)
         if parsed_dates:
-            statement.from_date = parsed_dates.group(1)
-            statement.to_date = parsed_dates.group(2)
+            statement.from_date = datetime.strptime(parsed_dates.group(1), "%d.%m.%Y")
+            statement.to_date = datetime.strptime(parsed_dates.group(2), "%d.%m.%Y")            
             return True
         return False
             

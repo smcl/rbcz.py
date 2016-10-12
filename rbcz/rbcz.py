@@ -4,7 +4,7 @@ def read_statement(filename):
     with open(filename) as f:
         return StatementParser().Parse(f.readlines())
 
-def read_statements(*filenames):
+def read_statements(filenames):
     return [ read_statement(filename) for filename in filenames ]
 
 def read_statements_from_mailbox(imap_addr, username, password, mailbox="inbox"):
