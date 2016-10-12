@@ -94,6 +94,11 @@ fig.autofmt_xdate()
 plt.show()
 ```
 
+This will generate a graph like the following:
+
+rbcz.png
+![rbcz.png](rbcz.png?raw=true)
+
 # TODO
 
 * double-check we definitely return `Decimal` and `Date` where I've said we do
