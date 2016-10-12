@@ -6,8 +6,6 @@ from .account_movements_parser import AccountMovementsParser
 
 from .statement import *
 
-from pprint import pprint
-
 section_regex = "^=+$"
 
 class StatementParser(object):
@@ -28,13 +26,16 @@ class StatementParser(object):
             line = raw_line.strip()
             
             if re.match(section_regex, line):
-                if len(current_section) > 1 and not self.skip_section(current_section):
+                if len(current_section) > 3 and not self.skip_section(current_section):
                     sections.append(current_section)
                 current_section = []
                 continue
 
             current_section.append(line)
 
+        if len(current_section) > 3 and not self.skip_section(current_section):
+            sections.append(current_section)
+            
         return sections
 
     def skip_section(self, section):
