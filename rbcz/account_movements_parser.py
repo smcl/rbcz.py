@@ -3,7 +3,8 @@ from datetime import datetime
 from .movement import Movement
 from .utils import (
     to_decimal,
-    money_regex
+    money_regex,
+    to_short_date
 )
 
 # meant to parse a section like the below - lines of transactions split up
@@ -35,8 +36,7 @@ class AccountMovementsParser(object):
         for movement in movements:
             if len(movement) > 1:
                 m = Movement()
-                #for line in movement:
-                self.parse_first_line(m, movement[0])
+                self.parse_first_line(statement, m, movement[0])
                 statement.movements.append(m)
                 
     def split_into_movements(self, section_contents):
@@ -53,13 +53,15 @@ class AccountMovementsParser(object):
 
         return movements       
     
-    def parse_first_line(self, movement, line):
+    def parse_first_line(self, statement, movement, line):
+        current_year = statement.from_date.year
+        
         first_regex = r"\s*(\d+)\s+(\d\d\.\d\d)\.(.*)(\d\d\.\d\d)\.\s{5}\d?\s+(%s)" % (money_regex)
 
         first_match = re.match(first_regex, line)
 
         if first_match:
-            movement.number = first_match.group(1)
-            movement.date = first_match.group(4)
+            movement.number = int(first_match.group(1))
+            movement.date = to_short_date(first_match.group(4), current_year)
             movement.amount = to_decimal(first_match.group(5))
             

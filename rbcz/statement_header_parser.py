@@ -1,5 +1,5 @@
 import re
-from datetime import datetime
+from utils import to_long_date
 
 # what we're needing to do is parse a chunk of text like the following
 
@@ -59,8 +59,8 @@ class StatementHeaderParser(object):
     def parse_from_to(self, statement, line):
         parsed_dates = re.match(for_period_regex, line)
         if parsed_dates:
-            statement.from_date = datetime.strptime(parsed_dates.group(1), "%d.%m.%Y")
-            statement.to_date = datetime.strptime(parsed_dates.group(2), "%d.%m.%Y")            
+            statement.from_date = to_long_date(parsed_dates.group(1))
+            statement.to_date = to_long_date(parsed_dates.group(2))
             return True
         return False
             
