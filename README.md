@@ -17,8 +17,8 @@ This returns a `Statement` object which has the following properties:
 * `iban` - (string) the IBAN of your account
 * `currency` - (string) the currency the account holds
 * `number` - (int) the number of the statement (your first statement will be `1`)
-* `from_date` - (string) the opening date of the statement
-* `to_date` - (string) the closing date of the statement
+* `from_date` - (datetime) the opening date of the statement
+* `to_date` - (datetime) the closing date of the statement
 * `opening_balance` - (Decimal) the balance at the opening date of the statement
 * `income` - (Decimal) the income you've received during the statement's reporting period
 * `expenses` - (Decimal) the expenses you've paid out during the statement's reporting period
@@ -28,10 +28,15 @@ This returns a `Statement` object which has the following properties:
 * `available_balance` - (Decimal) amount of money available to withdraw at the closing date of the statement
 * `movements` - (List of Movement) the individual cash movements (payments in or out) during the reporting period
 
-The `movements` property is a list of type `Movement`, each of which has the following properties:
-* `number` - (int) id of the movement in this statement
+The individual account movements in `movements` are each of type `Movement`, which has following properties:
+* `number` - (int) id of the movement in the current statement
 * `amount` - (Decimal) amount of the thing
-* `date` - (Date) the date which the payment was created at
+* `date_deducted` - (datetime) the date the transaction was submitted originally
+* `date_completed` - (datetime) the date + time the transaction was finalised at
+* `counterparty_account_number` - (string) the account the payment was sent to or received from
+* `counterparty_details` - (string) information about the account the payment was sent to or received from, if available
+* `narrative` - (string) additional information about the transaction
+* `transaction_type` - (string) what type of transaction occurred
 
 ## read_statements
 
@@ -101,8 +106,8 @@ rbcz.png
 
 # TODO
 
-* double-check we definitely return `Decimal` and `Date` where I've said we do
-* more information is available from each `Movement`
+* confirm some of the mystery fields, like ssvsvc
+* find a better way to describe the two "date" fields for each transaction
 * add some tests
 * implement IMAP functionality
 * check if anyone I know gets Czech statements, see if we can parse them too. Is there any other languages - German?
