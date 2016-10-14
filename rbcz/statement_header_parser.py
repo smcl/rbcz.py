@@ -23,12 +23,14 @@ Currency:        CZK
 statement_number_regex = "Bank statement No. (\d+)"
 date_regex = "\d\d\.\d\d\.\d\d\d\d"
 for_period_regex = "For period (%s)/(%s)" % (date_regex, date_regex)
-colon_delimit_regex = "(.*)\:(.*)"
+colon_delimit_regex = "(.*)\:\s*([\w\d].*)"
 
 account_name_label = "Name of account"
 account_number_label = "Account number"
 iban_label = "IBAN"
 currency_label = "Currency"
+
+from pprint import pprint
 
 class StatementHeaderParser(object):
 
@@ -59,8 +61,9 @@ class StatementHeaderParser(object):
     def parse_from_to(self, statement, line):
         parsed_dates = re.match(for_period_regex, line)
         if parsed_dates:
-            statement.from_date = to_long_date(parsed_dates.group(1))
-            statement.to_date = to_long_date(parsed_dates.group(2))
+            (from_date, to_date) = parsed_dates.groups()
+            statement.from_date = to_long_date(from_date)
+            statement.to_date = to_long_date(to_date)
             return True
         return False
             
@@ -68,8 +71,7 @@ class StatementHeaderParser(object):
         
         parsed_assign = re.match(colon_delimit_regex, line)
         if parsed_assign:
-            label = parsed_assign.group(1).strip()
-            value = parsed_assign.group(2).strip()
+            (label, value) = parsed_assign.groups()
 
             if (label == account_name_label):
                 statement.account_name = value

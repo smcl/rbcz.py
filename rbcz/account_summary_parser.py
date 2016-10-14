@@ -16,8 +16,6 @@ Receivables past due                                                            
 Available balance                                                             1 000.00
 """
 
-# pretty heavy on the regexes - maybe need to think about using ply (python lex/yacc)
-
 opening_regex = r"Beginning balance\s+(%s)" % (money_regex)
 income_regex = r"Income\s+(%s)\s+(%s)" % (money_regex, money_regex)
 expenses_regex = r"Expense\s+(%s)\s+(%s)" % (money_regex, money_regex)
@@ -25,8 +23,6 @@ closing_regex = r"Ending balance\s+(%s)" % (money_regex)
 blocked_regex = r"Of which, blocked\s+(%s)" % (money_regex)
 receivable_regex = r"Receivables past due\s+(%s)" % (money_regex)
 available_regex = r"Available balance\s+(%s)" % (money_regex)
-
-from pprint import pprint
 
 class AccountSummaryParser(object):
 
@@ -42,8 +38,6 @@ class AccountSummaryParser(object):
         ]
 
         for line in section:
-            #print "\"" + line + "\""
-            
             if not line:
                 continue
 
@@ -52,52 +46,53 @@ class AccountSummaryParser(object):
                     break
         
     def parse_opening(self, statement, line):
-        parsed_opening = re.match(opening_regex, line)
-        if parsed_opening:
-            statement.opening_balance = to_decimal(parsed_opening.group(1))
-            return True
-        return False
-
-    def parse_income(self, statement, line):
-        parsed_income = re.match(income_regex, line)
-        if parsed_income:
-            #statement.ytd_income = to_decimal(parsed_income.group(1))
-            statement.income = to_decimal(parsed_income.group(2))
-            return True
-        return False
-
-    def parse_expenses(self, statement, line):
-        parsed_expenses = re.match(expenses_regex, line)
-        if parsed_expenses:
-            #statement.ytd_expenses = to_decimal(parsed_expenses.group(1))
-            statement.expenses = to_decimal(parsed_expenses.group(2))
-            return True
-        return False
+        opening = self.parse_summary_line(opening_regex, line, 1)
+        if opening:
+            statement.opening_balance = to_decimal(opening)
+        return bool(opening)
     
+    def parse_income(self, statement, line):
+        income = self.parse_summary_line(income_regex, line, 2)
+        if income:
+            statement.income = to_decimal(income)
+        return bool(income)
+        
+    def parse_expenses(self, statement, line):
+        expenses = self.parse_summary_line(expenses_regex, line, 2)
+        if expenses:
+            statement.expenses = to_decimal(expenses)
+        return bool(expenses)
+            
     def parse_closing(self, statement, line):
-        parsed_closing = re.match(closing_regex, line)
-        if parsed_closing:
-            statement.closing_balance = to_decimal(parsed_closing.group(1))
-            return True
-        return False
+        closing = self.parse_summary_line(closing_regex, line, 1)
+        if closing:
+            statement.closing_balance = to_decimal(closing)
+        return bool(closing)
 
     def parse_blocked(self, statement, line):
-        parsed_blocked = re.match(blocked_regex, line)
-        if parsed_blocked:
-            statement.blocked = to_decimal(parsed_blocked.group(1))
-            return True
-        return False
+        blocked = self.parse_summary_line(blocked_regex, line, 1)
+        if blocked:
+            statement.blocked = to_decimal(blocked)
+        return bool(blocked)
 
     def parse_due(self, statement, line):
-        parsed_receivable = re.match(receivable_regex, line)
-        if parsed_receivable:
-            statement.receivable = to_decimal(parsed_receivable.group(1))
-            return True
-        return False
+        receivable = self.parse_summary_line(receivable_regex, line, 1)
+        if receivable:
+            statement.receivable = to_decimal(receivable)
+
+        return bool(receivable)
 
     def parse_available(self, statement, line):
-        parsed_available = re.match(available_regex, line)
-        if parsed_available:
-            statement.available_balance = to_decimal(parsed_available.group(1))
-            return True
-        return False
+        available_balance = self.parse_summary_line(available_regex, line, 1)
+        if available_balance:
+            statement.available_balance = to_decimal(available_balance)
+
+        return bool(available_balance)
+
+    def parse_summary_line(self, regex, line, group_index):
+        regex_result = re.match(regex, line)
+
+        if (regex_result):
+            return regex_result.group(group_index)
+
+        return None
