@@ -56,9 +56,13 @@ statements = rbcz.read_statements(statement_filenames)
 
 ## read_statements_from_mailbox
 
-Use with caution. Call it with IMAP credentials and it'll log in, search for bank statements, download, parse and return them.
+Use with caution. Call it with IMAP credentials and it'll log in, search for emails from the "info@rb.cz" address, downloads the attachments then parses and returns a list of them.
 
-*NOTE: NOT IMPLEMENTED YET*
+```
+from rbcz import *
+
+statements = read_statements_from_mailbox("imap.gmail.com", "my.email.address@gmail.com", "password123", "inbox")
+```
 
 # Example
 
