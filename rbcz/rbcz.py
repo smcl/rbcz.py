@@ -7,24 +7,31 @@ def read_statement(filename):
 def read_statements(filenames):
     return [ read_statement(filename) for filename in filenames ]
 
-def read_statements_from_mailbox(imap_addr, username, password, mailbox="inbox"):
-    """
-    from https://yuji.wordpress.com/2011/06/22/python-imaplib-imap-example-with-gmail/
-    something like...
+def read_statements_from_mailbox(hostname, username, password, mailbox="inbox"):
+    m = imaplib.IMAP4_SSL(hostname)
+    m.login(username, password)
 
-    import imaplib
-    
-    M = imaplib.IMAP4()
-    M.login(getpass.getuser(), getpass.getpass())
-    M.select()
-    typ, data = M.search(None, 'ALL')
-    for num in data[0].split():
-        typ, data = M.fetch(num, '(RFC822)')
-        print 'Message %s\n%s\n' % (num, data[0][1])
-    M.close()
-    M.logout()
+    m.select(mailbox) 
+    status, email_ids = m.search(None, '(FROM "info@rb.cz")')
 
-    """
-    pass
-    
-    
+    statements = []
+
+    for num in email_ids[0].split():
+        typ, data = con.fetch(num, '(RFC822)')
+        text = data[0][1]
+        msg = email.message_from_string(text)
+        for part in msg.walk():
+            if part.get_content_maintype() == 'multipart':
+                continue
+            if part.get('Content-Disposition') is None:
+                continue
+            filename = part.get_filename()
+            data = part.get_payload(decode=True)
+            if not data:
+                continue
+	    statements.append(StatementParser().Parse(data))
+        
+    con.close()
+    con.logout()
+
+    return statements
