@@ -64,7 +64,7 @@ A `Movement` is an individual transaction - for example an ATM withdrawal or Deb
 
 # Example
 
-The following script will attempt to parse all the files in the `./rb` directory, then take the closing balance of each period and plot it on a graph.
+The following script will attempt to parse all the files in the `./rb` directory, then take the closing balance and high/low water marks of each period and plot it on a graph.
 
 ```
 #!/usr/bin/python
@@ -79,24 +79,56 @@ from numpy import arange
 # rbcz library
 from rbcz import *
 
+# load and sort the statements
 statements = sorted(
-    rbcz.read_statements([ "./rb/" + f for f in os.listdir("./rb") ]),
-        key=lambda stmt: stmt.from_date)
+    rbcz.read_statements([ "./tmp/" + f for f in os.listdir("./tmp") ]),
+    key=lambda stmt: stmt.from_date)
 
-balances = [ s.closing_balance for s in statements ]
+# function to deterine high/low-water mark on account
+def high_low_water(stmt):
+    bal = stmt.opening_balance
+    hwm = bal
+    lwm = bal
+    for m in stmt.movements:
+        bal += m.amount
+        if bal > hwm:
+            hwm = bal
+        if bal < lwm:
+            lwm = bal
+    return (lwm, hwm)
+
+#plt.gca().set_color_cycle(['green', 'black', 'red'])
+
+
+# extract high/low-water marks
+water_marks = [ high_low_water(s) for s in statements ]
+low_water_marks = [ wm[0] for wm in water_marks ]
+high_water_marks = [ wm[1] for wm in water_marks ]
+
+# extract closing balance and dates
+closing_balances = [ s.closing_balance for s in statements ]
 dates = date2num([ s.from_date for s in statements ])
 
+# prepare and display the chart using matplotlib
 y = arange(len(dates)*1.0)
 
+# plot the data
 fig, ax = plt.subplots()
-ax.plot_date(dates, balances)
+ax.set_color_cycle(['green', 'black', 'red'])
+ax.plot_date(dates, high_water_marks, "o-")
+ax.plot_date(dates, closing_balances, "o-")
+ax.plot_date(dates, low_water_marks, "o-")
 
+# fix up the axes
 ax.xaxis.set_major_locator(YearLocator())
 ax.xaxis.set_minor_locator(MonthLocator())
 ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
 
 ax.fmt_xdata = DateFormatter('%Y-%m-%d')
 fig.autofmt_xdate()
+
+# add a legend
+ax.legend(['highest', 'closing', 'lowest'], loc='upper left')
 
 plt.show()
 ```
