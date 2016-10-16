@@ -3,7 +3,7 @@ class Movement(object):
         self.number = -1
         self.recipient = ""
         self.amount = 0
-        self.date_deducted = ""
+        self.date_created = ""
         self.date_completed = ""
         self.counterparty_account_number = ""
         self.counterparty_details = ""

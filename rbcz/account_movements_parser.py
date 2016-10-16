@@ -71,7 +71,7 @@ class AccountMovementsParser(object):
             movement.number = int(first_match.group(1))
             movement.date_completed = to_short_date(first_match.group(2), current_year)
             movement.narrative = first_match.group(3).strip()
-            movement.date_deducted = to_short_date(first_match.group(4), current_year)
+            movement.date_created = to_short_date(first_match.group(4), current_year)
             movement.amount = to_decimal(first_match.group(5))
             
     def parse_second_line(self, statement, movement, line):

@@ -1,16 +1,40 @@
 # rbcz.py
-`rbcz` is a Python library for parsing the bank statements that Raiffeisen Bank send out via email. There are three simple functions which `read_statement`, `read_statements` and `read_statements_from_mailbox`.
+`rbcz` is a Python library for parsing the bank statements that Raiffeisen Bank send out via email. It exposes a simple API to either parse statements stored locally or to retrieve them from your IMAP server.
 
-## read_statement
+## Methods
 
-To parse a single statement saved we can use the `read_statement` function, which takes a single parameter - the path to the bank statement on the local filesystem:
+There are three simple functions which `read_statement`, `read_statements` and `read_statements_from_mailbox`. To parse a single statement saved we can use the `read_statement` function, which takes a single parameter - the path to the bank statement on the local filesystem - and returns a `Statement` object:
 
 ```
 from rbcz import *
 statement = rbcz.read_statement("/path/to/stmt_january_czk.txt")
 ```
 
-This returns a `Statement` object which has the following properties:
+If we have a number of statements locally we can use `read_statements` which accepts a list of filenames to parse, and returns a list of `Statement`:
+
+```
+from rbcz import *
+
+statement_filenames = [
+    "stmt_jan_czk.txt",
+    "stmt_feb_czk.txt",
+    "stmt_mar_czk.txt"
+]
+
+statements = rbcz.read_statements(statement_filenames)
+```
+
+If we don't have all our statements stored locally we can use `read_statements_from_mailbox` to connect to an IMAP server and search it for emails from the "info@rb.cz" address, download and parse the attachments and return a list of `Statement`.
+
+```
+from rbcz import *
+
+statements = read_statements_from_mailbox("imap.gmail.com", "my.email.address@gmail.com", "password123", "inbox")
+```
+
+## Types
+
+There are two types - `Statement` and `Movement`. A `Statement` represents a monthly statement:
 
 * `account_name` - (string) the name of the main account holder (your name!)
 * `account_number` - (string) your account number
@@ -28,7 +52,7 @@ This returns a `Statement` object which has the following properties:
 * `available_balance` - (Decimal) amount of money available to withdraw at the closing date of the statement
 * `movements` - (List of Movement) the individual cash movements (payments in or out) during the reporting period
 
-The individual account movements in `movements` are each of type `Movement`, which has following properties:
+A `Movement` is an individual transaction - for example an ATM withdrawal or Debit Card payment. Each `Statement` will have a list of `Movement` called `movements` for all the transactions during the reporting period. Each `Movement` has the following:
 * `number` - (int) id of the movement in the current statement
 * `amount` - (Decimal) amount of the thing
 * `date_deducted` - (datetime) the date the transaction was submitted originally
@@ -37,32 +61,6 @@ The individual account movements in `movements` are each of type `Movement`, whi
 * `counterparty_details` - (string) information about the account the payment was sent to or received from, if available
 * `narrative` - (string) additional information about the transaction
 * `transaction_type` - (string) what type of transaction occurred
-
-## read_statements
-
-Similar to `read_statement` but instead accepts a `List` of filenames and returns a `List` of `Statement`:
-
-```
-from rbcz import *
-
-statement_filenames = [
-    "stmt_jan_czk.txt",
-    "stmt_feb_czk.txt",
-    "stmt_mar_czk.txt"
-]
-
-statements = rbcz.read_statements(statement_filenames)
-```
-
-## read_statements_from_mailbox
-
-Use with caution. Call it with IMAP credentials and it'll log in, search for emails from the "info@rb.cz" address, downloads the attachments then parses and returns a list of them.
-
-```
-from rbcz import *
-
-statements = read_statements_from_mailbox("imap.gmail.com", "my.email.address@gmail.com", "password123", "inbox")
-```
 
 # Example
 
@@ -112,9 +110,5 @@ rbcz.png
 
 * confirm some of the mystery fields, like ssvsvc
 * find a better way to describe the two "date" fields for each transaction
-* add some tests
-* implement IMAP functionality
 * check if anyone I know gets Czech statements, see if we can parse them too. Is there any other languages - German?
 * check if it works for non-Czech-Republic Raiffeisen
-
-Once it's roughly working chuck together a simple example to read in a chunk of statements and plot balance over time in `matplotlib`
