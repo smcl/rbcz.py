@@ -146,6 +146,7 @@ rbcz.png
 
 # TODO
 
+* check if it's possible to improve the parsing - there are a LOT of regexes that I throw around and it's not pretty...
 * confirm some of the mystery fields, like ssvsvc
 * find a better way to describe the two "date" fields for each transaction
 * check if anyone I know gets Czech statements, see if we can parse them too. Is there any other languages - German?
