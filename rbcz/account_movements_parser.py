@@ -81,7 +81,7 @@ class AccountMovementsParser(object):
 
         if second_match:
             (hours, minutes) = [ int(s) for s in second_match.group(1).split(":")]
-            movement.date_deducted += timedelta(hours = hours, minutes = minutes)
+            movement.date_completed += timedelta(hours = hours, minutes = minutes)
 
     def parse_third_line(self, statement, movement, line):
 
