@@ -34,7 +34,11 @@ statements = read_statements_from_mailbox("imap.gmail.com", "my.email.address@gm
 
 ## Types
 
-There are two types - `Statement` and `Movement`. A `Statement` represents a monthly statement:
+There are two types - `Statement` and `Movement`. 
+
+### Statement
+
+A `Statement` represents a monthly statement:
 
 * `account_name` - (string) the name of the main account holder (your name!)
 * `account_number` - (string) your account number
@@ -51,6 +55,8 @@ There are two types - `Statement` and `Movement`. A `Statement` represents a mon
 * `receivable` - (Decimal) amount received but yet to clear/settle
 * `available_balance` - (Decimal) amount of money available to withdraw at the closing date of the statement
 * `movements` - (List of Movement) the individual cash movements (payments in or out) during the reporting period
+
+### Movement
 
 A `Movement` is an individual transaction - for example an ATM withdrawal or Debit Card payment. Each `Statement` will have a list of `Movement` called `movements` for all the transactions during the reporting period. Each `Movement` has the following:
 * `number` - (int) id of the movement in the current statement
