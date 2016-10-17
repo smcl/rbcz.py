@@ -141,7 +141,6 @@ plt.show()
 
 This will generate a graph like the following:
 
-rbcz.png
 ![rbcz.png](rbcz.png?raw=true)
 
 # TODO
