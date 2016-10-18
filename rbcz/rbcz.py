@@ -1,3 +1,4 @@
+from imaplib import IMAP4_SSL
 from .statement_parser import StatementParser
 
 def read_statement(filename):
@@ -8,7 +9,7 @@ def read_statements(filenames):
     return [ read_statement(filename) for filename in filenames ]
 
 def read_statements_from_mailbox(hostname, username, password, mailbox="inbox"):
-    m = imaplib.IMAP4_SSL(hostname)
+    m = IMAP4_SSL(hostname)
     m.login(username, password)
 
     m.select(mailbox) 
