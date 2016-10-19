@@ -54,7 +54,7 @@ class StatementHeaderParser(object):
         parsed_stmt_number = re.match(statement_number_regex, line)
         
         if parsed_stmt_number:
-            statement.number = parsed_stmt_number.group(1)
+            statement.number = int(parsed_stmt_number.group(1))
             return True
         return False
 
