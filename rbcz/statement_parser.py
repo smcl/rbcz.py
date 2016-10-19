@@ -51,7 +51,7 @@ class StatementParser(object):
 
         parser_idx = 0
         sections = self.split_into_sections(file_contents)
-        statement = Statment()
+        statement = Statement()
         
         for section in sections:
             for parser in self.parsers[parser_idx:]:

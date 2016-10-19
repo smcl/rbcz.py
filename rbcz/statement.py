@@ -1,4 +1,4 @@
-class Statment(object):
+class Statement(object):
     def __init__(self):
         self.account_name = ""
         self.account_number = ""
