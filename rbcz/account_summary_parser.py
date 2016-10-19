@@ -34,7 +34,8 @@ class AccountSummaryParser(object):
             self.parse_expenses,
             self.parse_closing,
             self.parse_blocked,
-            self.parse_due
+            self.parse_due,
+            self.parse_available
         ]
 
         for line in section:
