@@ -146,8 +146,10 @@ This will generate a graph like the following:
 
 # TODO
 
+* get coverage to 100%
+* fix up IMAP support (it's untested and probably fucked)
+* add flake8 to CI, and fix all the insane bugs
 * check if it's possible to improve the parsing - there are a LOT of regexes that I throw around and it's not pretty...
-* confirm some of the mystery fields, like ssvsvc
-* find a better way to describe the two "date" fields for each transaction
+* ssvsvc is actually three fields - ss/vs/vc. confirm what they are, split them out and make sure they're parsed and stored
 * check if anyone I know gets Czech statements, see if we can parse them too. Is there any other languages - German?
 * check if it works for non-Czech-Republic Raiffeisen
