@@ -5,6 +5,7 @@ class Movement(object):
         self.amount = 0
         self.date_created = ""
         self.date_completed = ""
+        self.payment_source = ""
         self.counterparty_account_number = ""
         self.counterparty_details = ""
         self.narrative = ""

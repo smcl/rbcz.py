@@ -49,7 +49,7 @@ class AccountMovementsParser(object):
     def split_into_movements(self, section_contents):
         movements = []
         current_movement = []
-
+       
         for line in section_contents:
             if re.match(delimiter_regex, line):
                 movements.append(current_movement)
@@ -69,32 +69,33 @@ class AccountMovementsParser(object):
 
         if first_match:
             movement.number = int(first_match.group(1))
-            movement.date_completed = to_short_date(first_match.group(2), current_year)
+            movement.date_created = to_short_date(first_match.group(2), current_year)
             movement.narrative = first_match.group(3).strip()
-            movement.date_created = to_short_date(first_match.group(4), current_year)
+            movement.date_completed = to_short_date(first_match.group(4), current_year)
             movement.amount = to_decimal(first_match.group(5))
             
     def parse_second_line(self, statement, movement, line):
-        second_regex = r"(\d\d\:\d\d)\s(.*)$"
+        second_regex = r"\s*(\d\d\:\d\d)\s(.*)$"
 
         second_match = re.match(second_regex, line)
 
         if second_match:
             (hours, minutes) = [ int(s) for s in second_match.group(1).split(":")]
             movement.date_completed += timedelta(hours = hours, minutes = minutes)
+            movement.payment_source = second_match.group(2).strip()
 
     def parse_third_line(self, statement, movement, line):
 
-        third_regex = "(\d+/\d+)\s+(\d+)\s+([\w].*)$"
+        third_regex = "\s*(\d+/\d+)\s+(\d+)\s+([\w].*)$"
 
         third_match= re.match(third_regex, line)
-        
+
         if third_match:
             account_number, ssvscs, transaction_type = third_match.groups()
 
-            movement.counterparty_account_number = account_number
+            movement.counterparty_account_number = account_number.strip()
             #movement.ssvscs = something # find out WTF this line "SS/VS/CS" line is
-            movement.transaction_type = transaction_type
+            movement.transaction_type = transaction_type.strip()
 
     def parse_fourth_line(self, statement, movement, line):
         movement.counterparty_details = line.strip()
