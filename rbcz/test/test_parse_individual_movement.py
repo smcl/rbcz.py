@@ -27,7 +27,7 @@ class AccountSummaryTest(unittest2.TestCase):
         self.statement.from_date = datetime(2016, 1, 1) # parser takes year from this field
         AccountMovementsParser().Parse(self.statement, account_movement)
 
-        # add an assert here that we've at least one movement
+        self.assertGreaterEqual(len(self.statement.movements), 1)
         self.movement = self.statement.movements[0]
         super(AccountSummaryTest, self).__init__(*args, **kwargs)
 
