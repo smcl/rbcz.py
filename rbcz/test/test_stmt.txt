@@ -1,0 +1,56 @@
+
+
+Raiffeisenbank a.s. 
+Bank statement No. 8
+For period 01.08.2016/31.08.2016
+
+Name of account: Test McTestman
+Account number:  2000145399/5500
+IBAN:            CZ6508000000192000145399
+Currency:        CZK
+
+
+
+
+
+
+======================================================================================
+                                                 Year-to-date     For statement period
+======================================================================================
+Beginning balance                                                           100 000.00
+Income                                             400 000.00                50 000.00
+Expense                                           -300 000.00               -30 000.00
+Ending balance                                                              120 000.00
+Of which, blocked                                                                 0.00
+Receivables past due                                                              0.00
+Available balance                                                           120 000.00
+======================================================================================
+Message for client
+The deposit on this account is subject to the protection provided by the system 
+of insurance of deposit claims. For more details of the system of insurance of deposit 
+claims, please visit our bank's website: www.rb.cz.
+
+
+Movements on current account
+======================================================================================
+No.  Date  Note                  Deducted   SS                        Amount       Fee
+     Time  Name of account       Value      VS                                Exchange
+           Account number                   CS         Type of transaction      Advice
+======================================================================================
+   1 01.08.                      11.08.                            50 000.00          
+     14:47 TestCorp s.r.o                                                       
+           5200011647/5500                  558        Enter transfer                 
+--------------------------------------------------------------------------------------
+   2 02.08.RB Ceska, Brno, CZE   29.07.                           -10 000.00          
+     10:57 Debit Card:516872XXXXX                                                     
+           8323453/5500                     1178       Withdraw from ATM              
+--------------------------------------------------------------------------------------
+   3 02.08.RB Ceska, Brno, CZE   31.07.                           -10 000.00          
+     10:57 Debit Card:516872XXXXX                                                     
+           8323453/5500                     1178       Withdraw from ATM              
+--------------------------------------------------------------------------------------
+   4 02.08.                      31.07.                           -10 000.00          
+     10:57 Debit Card:516872XXXXX                                                     
+           8323525/5500                     1178       Card payment                   
+           Billa Namesti Svobody, Brno - Omega, CZE
+--------------------------------------------------------------------------------------
