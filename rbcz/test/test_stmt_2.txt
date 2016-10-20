@@ -1,0 +1,37 @@
+
+
+Raiffeisenbank a.s. 
+Bank statement No. 8
+For period 01.08.2016/31.08.2016
+
+Name of account: Test McTestman
+Account number:  2000145399/5500
+IBAN:            CZ6508000000192000145399
+Currency:        CZK
+
+
+
+
+
+
+======================================================================================
+                                                 Year-to-date     For statement period
+======================================================================================
+Beginning balance                                                                 0.00
+Income                                               1 000.00                 1 000.00
+Expense                                                  0.00                     0.00
+Ending balance                                                                1 000.00
+Of which, blocked                                                                 0.00
+Receivables past due                                                              0.00
+Available balance                                                             1 000.00
+======================================================================================
+Movements on current account
+======================================================================================
+No.  Date  Note                  Deducted   SS                        Amount       Fee
+     Time  Name of account       Value      VS                                Exchange
+           Account number                   CS         Type of transaction      Advice
+======================================================================================
+   1 03.04.Deposit               03.04.                             1 000.00          
+     13:57 Prevod.u. Brno Masar                                                       
+           8038119660/5500                             Cash deposit                   
+--------------------------------------------------------------------------------------

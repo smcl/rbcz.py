@@ -22,7 +22,8 @@ expected_available = Decimal(120000)
 class ParseStatementsTest(unittest2.TestCase):
 
     def __init__(self, *args, **kwargs):
-        self.statement = rbcz.read_statements(["./rbcz/test/test_stmt.txt"])[0]
+        self.statement = rbcz.read_statements(
+            ["./rbcz/test/test_stmt.txt", "./rbcz/test/test_stmt_2.txt"])[0]
         super(ParseStatementsTest, self).__init__(*args, **kwargs)
 
     def test_count_movements(self):
