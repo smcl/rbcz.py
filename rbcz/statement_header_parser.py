@@ -61,7 +61,4 @@ class StatementHeaderParser(object):
                 statement.iban = value
             elif (label == currency_label):
                 statement.currency = value
-            else:
-                return False
-            return True
-        return False
+        return bool(parsed_assign)
