@@ -1,4 +1,5 @@
-# rbcz.py
+# rbcz.py [![Build Status](https://api.travis-ci.org/smcl/rbcz.py.svg?branch=master)](https://travis-ci.org/smcl/rbcz.py) [![Coverage Status](https://coveralls.io/repos/github/smcl/rbcz.py/badge.svg?branch=master)](https://coveralls.io/github/smcl/rbcz.py?branch=master)
+
 `rbcz` is a Python library for parsing the bank statements that Raiffeisen Bank send out via email. It exposes a simple API to either parse statements stored locally or to retrieve them from your IMAP server.
 
 ## Methods
