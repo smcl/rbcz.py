@@ -30,7 +30,7 @@ def read_statements_from_mailbox(hostname, username, password, mailbox="inbox"):
             data = part.get_payload(decode=True)
             if not data:
                 continue
-	    statements.append(StatementParser().Parse(data))
+        statements.append(StatementParser().Parse(data))
         
     con.close()
     con.logout()

@@ -1,5 +1,5 @@
 import re
-from utils import to_long_date
+from .utils import to_long_date
 
 # what we're needing to do is parse a chunk of text like the following
 
