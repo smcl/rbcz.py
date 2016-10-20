@@ -8,6 +8,7 @@ install:
   - pip install coveralls
   - python setup.py install
 script:
+  - flake8 rbcz
   - python -W always setup.py test
   - coverage run --source=rbcz setup.py test
 after_success:

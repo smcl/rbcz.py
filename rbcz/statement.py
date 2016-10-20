@@ -15,4 +15,3 @@ class Statement(object):
         self.receivable = 0
         self.available_balance = 0
         self.movements = []
-    

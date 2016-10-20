@@ -1,8 +1,5 @@
 import re
-from datetime import (
-    datetime,
-    timedelta
-)    
+from datetime import timedelta
 from .movement import Movement
 from .utils import (
     to_decimal,
@@ -10,26 +7,8 @@ from .utils import (
     to_short_date
 )
 
-# meant to parse a section like the below - lines of transactions split up
-# by series of dashes
-
-"""
-   1 02.08.RB Ceska, Brno, CZE   29.07.                            -1 800.00          
-     10:57 Debit Card:516872XXXXX                                                     
-           8323453/5500                     1178       Withdraw from ATM              
---------------------------------------------------------------------------------------
-   2 02.08.RB Ceska, Brno, CZE   31.07.                            -1 800.00          
-     10:57 Debit Card:516872XXXXX                                                     
-           8323453/5500                     1178       Withdraw from ATM              
---------------------------------------------------------------------------------------
-   3 02.08.                      31.07.                              -617.20          
-     10:57 Debit Card:516872XXXXX                                                     
-           8323525/5500                     1178       Card payment                   
-           Billa Namesti Svobody, Brno - Omega, CZE
---------------------------------------------------------------------------------------
-"""
-
 delimiter_regex = "^-+$"
+
 
 class AccountMovementsParser(object):
 
@@ -45,11 +24,11 @@ class AccountMovementsParser(object):
                 if (len(movement) > 3):
                     self.parse_fourth_line(statement, m, movement[3])
                 statement.movements.append(m)
-                
+
     def split_into_movements(self, section_contents):
         movements = []
         current_movement = []
-       
+
         for line in section_contents:
             if re.match(delimiter_regex, line):
                 movements.append(current_movement)
@@ -58,11 +37,12 @@ class AccountMovementsParser(object):
 
             current_movement.append(line)
 
-        return movements       
-    
+        return movements
+
     def parse_first_line(self, statement, movement, line):
         current_year = statement.from_date.year
-        
+
+        # flake8: noqa
         first_regex = r"\s*(\d+)\s+(\d\d\.\d\d)\.(.*)(\d\d\.\d\d)\.\s{5}\d?\s+(%s)" % (money_regex)
 
         first_match = re.match(first_regex, line)

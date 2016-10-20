@@ -1,10 +1,9 @@
 import unittest2
-from pprint import pprint
 from ..account_summary_parser import AccountSummaryParser
 from ..statement import Statement
 from decimal import Decimal
 
-# an example account summary
+# flake8: noqa
 account_summary = """
 Beginning balance                                                           100 000.00
 Income                                             400 000.00                50 000.00

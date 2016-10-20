@@ -4,7 +4,7 @@
 
 ## Methods
 
-There are three simple functions which `read_statement`, `read_statements` and `read_statements_from_mailbox`. To parse a single statement saved we can use the `read_statement` function, which takes a single parameter - the path to the bank statement on the local filesystem - and returns a `Statement` object:
+There are three simple functions which `read_statement`, `read_statements` and `read_statements_from_imap`. To parse a single statement saved we can use the `read_statement` function, which takes a single parameter - the path to the bank statement on the local filesystem - and returns a `Statement` object:
 
 ```
 from rbcz import *
@@ -25,12 +25,12 @@ statement_filenames = [
 statements = rbcz.read_statements(statement_filenames)
 ```
 
-If we don't have all our statements stored locally we can use `read_statements_from_mailbox` to connect to an IMAP server and search it for emails from the "info@rb.cz" address, download and parse the attachments and return a list of `Statement`.
+If we don't have all our statements stored locally we can use `read_statements_from_imap` to connect to an IMAP server and search it for emails from the "info@rb.cz" address, download and parse the attachments and return a list of `Statement`.
 
 ```
 from rbcz import *
 
-statements = read_statements_from_mailbox("imap.gmail.com", "my.email.address@gmail.com", "password123", "inbox")
+statements = read_statements_from_imap("imap.gmail.com", "my.email.address@gmail.com", "password123", "inbox")
 ```
 
 ## Types
@@ -148,7 +148,6 @@ This will generate a graph like the following:
 
 * get coverage to 100%
 * fix up IMAP support (it's untested and probably fucked)
-* add flake8 to CI, and fix all the insane bugs
 * check if it's possible to improve the parsing - there are a LOT of regexes that I throw around and it's not pretty...
 * ssvsvc is actually three fields - ss/vs/vc. confirm what they are, split them out and make sure they're parsed and stored
 * check if anyone I know gets Czech statements, see if we can parse them too. Is there any other languages - German?

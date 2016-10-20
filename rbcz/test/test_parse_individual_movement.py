@@ -1,11 +1,10 @@
 import unittest2
-from pprint import pprint
 from ..account_movements_parser import AccountMovementsParser
 from ..statement import Statement
 from datetime import datetime
 from decimal import Decimal
 
-# an example account summary
+# flake8: noqa
 account_movement = """   2 01.08.                      11.08.                            50 000.00          
      14:47 TestCorp s.r.o                                                       
            5200011647/5500                  558        Enter transfer                 

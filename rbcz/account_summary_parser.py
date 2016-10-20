@@ -4,17 +4,6 @@ from .utils import (
     money_regex
 )
 
-# parse the account summary - which will look something like this:
-
-"""
-Beginning balance                                                                 0.00
-Income                                               1 000.00                 1 000.00
-Expense                                                  0.00                     0.00
-Ending balance                                                                1 000.00
-Of which, blocked                                                                 0.00
-Receivables past due                                                              0.00
-Available balance                                                             1 000.00
-"""
 
 opening_regex = r"Beginning balance\s+(%s)" % (money_regex)
 income_regex = r"Income\s+(%s)\s+(%s)" % (money_regex, money_regex)
@@ -23,6 +12,7 @@ closing_regex = r"Ending balance\s+(%s)" % (money_regex)
 blocked_regex = r"Of which, blocked\s+(%s)" % (money_regex)
 receivable_regex = r"Receivables past due\s+(%s)" % (money_regex)
 available_regex = r"Available balance\s+(%s)" % (money_regex)
+
 
 class AccountSummaryParser(object):
 
@@ -45,25 +35,25 @@ class AccountSummaryParser(object):
             for parser in parsers:
                 if parser(statement, line):
                     break
-        
+
     def parse_opening(self, statement, line):
         opening = self.parse_summary_line(opening_regex, line, 1)
         if opening:
             statement.opening_balance = to_decimal(opening)
         return bool(opening)
-    
+
     def parse_income(self, statement, line):
         income = self.parse_summary_line(income_regex, line, 2)
         if income:
             statement.income = to_decimal(income)
         return bool(income)
-        
+
     def parse_expenses(self, statement, line):
         expenses = self.parse_summary_line(expenses_regex, line, 2)
         if expenses:
             statement.expenses = to_decimal(expenses)
         return bool(expenses)
-            
+
     def parse_closing(self, statement, line):
         closing = self.parse_summary_line(closing_regex, line, 1)
         if closing:

@@ -1,10 +1,9 @@
 import unittest2
-from pprint import pprint
 from ..statement_header_parser import StatementHeaderParser
 from ..statement import Statement
 from ..utils import to_long_date
 
-# an example statement header 
+# flake8: noqa
 statement_header = """
 
 
