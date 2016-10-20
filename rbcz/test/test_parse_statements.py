@@ -4,7 +4,7 @@ from datetime import datetime
 from decimal import Decimal
 
 expected_statement_number = 8
-expected_period_start = datetime(2016, 8,1)
+expected_period_start = datetime(2016, 8, 1)
 expected_period_end = datetime(2016, 8, 31)
 expected_account_name = "Test McTestman"
 expected_account_number = "2000145399/5500"
@@ -17,6 +17,7 @@ expected_closing_balance = Decimal(120000)
 expected_blocked = Decimal(0)
 expected_receivable = Decimal(0)
 expected_available = Decimal(120000)
+
 
 class ParseStatementsTest(unittest2.TestCase):
 
@@ -40,7 +41,8 @@ class ParseStatementsTest(unittest2.TestCase):
         self.assertEqual(self.statement.account_name, expected_account_name)
 
     def test_account_number(self):
-        self.assertEqual(self.statement.account_number, expected_account_number)
+        self.assertEqual(self.statement.account_number,
+                         expected_account_number)
 
     def test_iban(self):
         self.assertEqual(self.statement.iban, expected_iban)
@@ -49,8 +51,9 @@ class ParseStatementsTest(unittest2.TestCase):
         self.assertEqual(self.statement.currency, expected_currency)
 
     def test_opening_balance(self):
-        self.assertEqual(expected_opening_balance, self.statement.opening_balance)
-    
+        self.assertEqual(expected_opening_balance,
+                         self.statement.opening_balance)
+
     def test_income(self):
         self.assertEqual(expected_income, self.statement.income)
 
@@ -58,7 +61,8 @@ class ParseStatementsTest(unittest2.TestCase):
         self.assertEqual(expected_expense, self.statement.expenses)
 
     def test_closing_balance(self):
-        self.assertEqual(expected_closing_balance, self.statement.closing_balance)
+        self.assertEqual(expected_closing_balance,
+                         self.statement.closing_balance)
 
     def test_blocked(self):
         self.assertEqual(expected_blocked, self.statement.blocked)

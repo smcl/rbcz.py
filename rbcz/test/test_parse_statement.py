@@ -3,12 +3,13 @@ from rbcz import rbcz
 from datetime import datetime
 
 expected_statement_number = 8
-expected_period_start = datetime(2016, 8,1)
+expected_period_start = datetime(2016, 8, 1)
 expected_period_end = datetime(2016, 8, 31)
 expected_account_name = "Test McTestman"
 expected_account_number = "2000145399/5500"
 expected_iban = "CZ6508000000192000145399"
 expected_currency = "CZK"
+
 
 class ParseStatementTest(unittest2.TestCase):
 
@@ -32,7 +33,8 @@ class ParseStatementTest(unittest2.TestCase):
         self.assertEqual(self.statement.account_name, expected_account_name)
 
     def test_account_number(self):
-        self.assertEqual(self.statement.account_number, expected_account_number)
+        self.assertEqual(self.statement.account_number,
+                         expected_account_number)
 
     def test_iban(self):
         self.assertEqual(self.statement.iban, expected_iban)
