@@ -43,7 +43,7 @@ class AccountMovementsParser(object):
         current_year = statement.from_date.year
 
         # flake8: noqa
-        first_regex = r"\s*(\d+)\s+(\d\d\.\d\d)\.(.*)(\d\d\.\d\d)\.\s{5}\d?\s+(%s)" % (money_regex)
+        first_regex = r"\s*(\d+)\s+(\d\d\.\d\d)\.(.*)(\d\d\.\d\d)\.\s{5}(\d*)\s+(%s)" % (money_regex)
 
         first_match = re.match(first_regex, line)
 
@@ -52,10 +52,11 @@ class AccountMovementsParser(object):
             movement.date_created = to_short_date(first_match.group(2), current_year)
             movement.narrative = first_match.group(3).strip()
             movement.date_completed = to_short_date(first_match.group(4), current_year)
-            movement.amount = to_decimal(first_match.group(5))
+            movement.specific_symbol = first_match.group(5)
+            movement.amount = to_decimal(first_match.group(6))
             
     def parse_second_line(self, statement, movement, line):
-        second_regex = r"\s*(\d\d\:\d\d)\s(.*)$"
+        second_regex = r"^\s*(\d\d\:\d\d)\s(.*?)\s+(\d*)$"
 
         second_match = re.match(second_regex, line)
 
@@ -63,18 +64,19 @@ class AccountMovementsParser(object):
             (hours, minutes) = [ int(s) for s in second_match.group(1).split(":")]
             movement.date_completed += timedelta(hours = hours, minutes = minutes)
             movement.payment_source = second_match.group(2).strip()
-
+            movement.variable_symbol = second_match.group(3)
+             
     def parse_third_line(self, statement, movement, line):
 
-        third_regex = "\s*(\d+/\d+)\s+(\d+)\s+([\w].*)$"
+        third_regex = "\s*(\d+/\d+)\s+(\d*)\s+([\w].*)$"
 
         third_match= re.match(third_regex, line)
 
         if third_match:
-            account_number, ssvscs, transaction_type = third_match.groups()
+            account_number, constant_symbol, transaction_type = third_match.groups()
 
             movement.counterparty_account_number = account_number.strip()
-            #movement.ssvscs = something # find out WTF this line "SS/VS/CS" line is
+            movement.constant_symbol = constant_symbol
             movement.transaction_type = transaction_type.strip()
 
     def parse_fourth_line(self, statement, movement, line):

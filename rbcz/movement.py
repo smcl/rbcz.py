@@ -10,3 +10,6 @@ class Movement(object):
         self.counterparty_details = ""
         self.narrative = ""
         self.transaction_type = ""
+        self.specific_symbol = ""
+        self.variable_symbol = ""
+        self.constant_symbol = ""

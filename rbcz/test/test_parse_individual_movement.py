@@ -5,11 +5,11 @@ from datetime import datetime
 from decimal import Decimal
 
 # flake8: noqa
-account_movement = """   2 01.08.                      11.08.                            50 000.00          
-     14:47 TestCorp s.r.o                                                       
+account_movement = [m.strip() for m in """   2 01.08.                      11.08.     0                      50 000.00          
+     14:47 TestCorp s.r.o                   1460000108                                    
            5200011647/5500                  558        Enter transfer                 
 --------------------------------------------------------------------------------------
-""".split("\n")
+""".split("\n")]
 
 expected_movement_number = 2
 expected_date_created = datetime(2016, 8, 1)
@@ -18,6 +18,9 @@ expected_amount = Decimal(50000)
 expected_payment_source =  "TestCorp s.r.o"
 expected_counterparty_account_number = "5200011647/5500"
 expected_transaction_type = "Enter transfer"
+expected_specific_symbol = "0"
+expected_variable_symbol = "1460000108"
+expected_constant_symbol = "558"
 
 class AccountSummaryTest(unittest2.TestCase):
 
@@ -51,3 +54,11 @@ class AccountSummaryTest(unittest2.TestCase):
     def test_payment_source(self):
         self.assertEqual(expected_payment_source, self.movement.payment_source)
 
+    def test_specific_symbol(self):
+        self.assertEqual(expected_specific_symbol, self.movement.specific_symbol)
+
+    def test_variable_symbol(self):
+        self.assertEqual(expected_variable_symbol, self.movement.variable_symbol)
+
+    def test_constant_symbol(self):
+        self.assertEqual(expected_constant_symbol, self.movement.constant_symbol)

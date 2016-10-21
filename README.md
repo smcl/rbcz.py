@@ -69,6 +69,9 @@ A `Movement` is an individual transaction - for example an ATM withdrawal or Deb
 * `counterparty_details` - (string) information about the account the payment was sent to or received from, if available
 * `narrative` - (string) additional information about the transaction
 * `transaction_type` - (string) what type of transaction occurred
+* `specific_symbol` - (string) specific symbol for movement
+* `variable_symbol` - (string) variable symbol for movement
+* `constant_symbol` - (string) constant symbol for movement
 
 # Example
 
@@ -150,6 +153,5 @@ This will generate a graph like the following:
 * get coverage to 100%
 * fix up IMAP support (it's untested and probably fucked)
 * check if it's possible to improve the parsing - there are a LOT of regexes that I throw around and it's not pretty...
-* ssvsvc is actually three fields - ss/vs/vc. confirm what they are, split them out and make sure they're parsed and stored
 * check if anyone I know gets Czech statements, see if we can parse them too. Is there any other languages - German?
 * check if it works for non-Czech-Republic Raiffeisen
