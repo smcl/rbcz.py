@@ -1,11 +1,11 @@
 # rbcz.py [![Build Status](https://api.travis-ci.org/smcl/rbcz.py.svg?branch=master)](https://travis-ci.org/smcl/rbcz.py) [![Coverage Status](https://coveralls.io/repos/github/smcl/rbcz.py/badge.svg)](https://coveralls.io/github/smcl/rbcz.py?branch=master)
 
 
-`rbcz` is a Python library for parsing the bank statements that Raiffeisen Bank send out via email. It exposes a simple API to either parse statements stored locally or to retrieve them from your IMAP server.
+`rbcz` is a Python library for parsing the plain-text bank statements that Raiffeisen Bank send out via email. It exposes a simple API to either parse statements stored on your local filesystem or to search through your email and retrieve them via IMAP.
 
 ## Methods
 
-There are three simple functions which `read_statement`, `read_statements` and `read_statements_from_imap`. To parse a single statement saved we can use the `read_statement` function, which takes a single parameter - the path to the bank statement on the local filesystem - and returns a `Statement` object:
+There are three simple functions - `read_statement`, `read_statements` and `read_statements_from_imap`. To parse a single statement we can use the `read_statement` function, which takes a single parameter - the path to the bank statement on the local filesystem - and returns a `Statement` object:
 
 ```
 from rbcz import *
@@ -75,7 +75,7 @@ A `Movement` is an individual transaction - for example an ATM withdrawal or Deb
 
 # Example
 
-The following script will attempt to parse all the files in the `./rb` directory, then take the closing balance and high/low water marks of each period and plot it on a graph.
+The following script will attempt to parse all the statements in the `./rb` directory, then take the closing balance and high/low water marks of each period and plot it on a graph.
 
 ```
 #!/usr/bin/python
@@ -92,7 +92,7 @@ from rbcz import *
 
 # load and sort the statements
 statements = sorted(
-    rbcz.read_statements([ "./tmp/" + f for f in os.listdir("./tmp") ]),
+    rbcz.read_statements([ "./rb/" + f for f in os.listdir("./rb") ]),
     key=lambda stmt: stmt.from_date)
 
 # function to deterine high/low-water mark on account
@@ -144,7 +144,7 @@ ax.legend(['highest', 'closing', 'lowest'], loc='upper left')
 plt.show()
 ```
 
-This will generate a graph like the following:
+Depending on the content of the bank statements this will generate a graph like the following:
 
 ![rbcz.png](rbcz.png?raw=true)
 
