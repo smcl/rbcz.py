@@ -151,7 +151,7 @@ Depending on the content of the bank statements this will generate a graph like 
 # TODO
 
 * get coverage to 100%
-* fix up IMAP support (it's untested and probably fucked)
+* decide if error parsing an imap statement should be eaten, printed or an exception
 * check if it's possible to improve the parsing - there are a LOT of regexes that I throw around and it's not pretty...
 * check if anyone I know gets Czech statements, see if we can parse them too. Is there any other languages - German?
 * check if it works for non-Czech-Republic Raiffeisen

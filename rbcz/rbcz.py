@@ -22,18 +22,23 @@ def read_statements_from_imap(hostname, username, password, mailbox="inbox"):
     statements = []
 
     for num in email_ids[0].split():
-        typ, data = m.fetch(num, '(RFC822)')
-        text = data[0][1]
-        msg = message_from_string(text)
-        for part in msg.walk():
-            if part.get_content_maintype() == 'multipart':
-                continue
-            if part.get('Content-Disposition') is None:
-                continue
-            data = part.get_payload(decode=True)
-            if not data:
-                continue
-        statements.append(StatementParser().Parse(data))
+        try:
+            typ, data = m.fetch(num, '(RFC822)')
+            text = data[0][1]
+            msg = message_from_string(text)
+            for part in msg.walk():
+                if part.get_content_maintype() == 'multipart':
+                    continue
+                if part.get('Content-Disposition') is None:
+                    continue
+                data = part.get_payload(decode=True)
+                if not data:
+                    continue
+                statements.append(StatementParser().Parse(data.split("\n")))
+        except:
+            # in future add an option to except/print on error
+            # for now just eat it and move on
+            pass
 
     m.close()
     m.logout()
