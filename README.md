@@ -3,6 +3,21 @@
 
 `rbcz` is a Python library for parsing the plain-text bank statements that Raiffeisen Bank send out via email. It exposes a simple API to either parse statements stored on your local filesystem or to search through your email and retrieve them via IMAP.
 
+## Install
+
+Either retrieve from pypi using pip:
+
+```
+$ pip install rbcz
+```
+
+or clone this repo, and install using `setup.py`:
+```
+$ git clone https://github.com/smcl/rbcz.py
+$ cd rbcz.py
+$ python setup.py install
+```
+
 ## Methods
 
 There are three simple functions - `read_statement`, `read_statements` and `read_statements_from_imap`. To parse a single statement we can use the `read_statement` function, which takes a single parameter - the path to the bank statement on the local filesystem - and returns a `Statement` object:
